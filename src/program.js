@@ -37,26 +37,30 @@ function onError(videoId, err) {
   console.log(videoId, 'had an error while downloading.', err);
 }
 
-for (var i = 0; i < program.urls.length; i++) {
-  var url = util.videoId(program.urls[i]);
-  var filename = program.files && program.files[i] || url;
-  if (! RegExp('\.mp3$').test(filename)) {
-    filename += '.mp3';
-  }
-  var audioWriteStream = fs.createWriteStream(filename);
-  var startMessage = 'Retrieving audio for ' + url + ' saving to ' + filename;
+module.exports = function() {
 
-  console.log(startMessage);
-
-  streamer.getAudio(
-    url,
-    audioWriteStream,
-    {
-      error : onError.bind(null, url),
-      end : onEnd.bind(null, url),
-      close : onClose.bind(null, url),
+  for (var i = 0; i < program.urls.length; i++) {
+    var url = util.videoId(program.urls[i]);
+    var filename = program.files && program.files[i] || url;
+    if (! RegExp('\.mp3$').test(filename)) {
+      filename += '.mp3';
     }
-  );
+    var audioWriteStream = fs.createWriteStream(filename);
+    var startMessage = 'Retrieving audio for ' + url + ' saving to ' + filename;
 
-}
+    console.log(startMessage);
+
+    streamer.getAudio(
+      url,
+      audioWriteStream,
+      {
+        error : onError.bind(null, url),
+        end : onEnd.bind(null, url),
+        close : onClose.bind(null, url),
+      }
+    );
+
+  }
+
+};
 

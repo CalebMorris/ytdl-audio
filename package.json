@@ -2,7 +2,7 @@
   "name": "ytdl-audio",
   "version": "0.0.1",
   "description": "Download and strip/convert audio from YT url CLI tool",
-  "main": "index.js",
+  "main": "./src/program.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
